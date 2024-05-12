@@ -1,7 +1,6 @@
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import Agent, Task, Crew, Process
-from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -12,7 +11,6 @@ class SceneCrew:
     # Set gemini pro as llm
     llm = ChatGoogleGenerativeAI(
         model="gemini-pro",
-        verbose=True,
         temperature=0.5,
         google_api_key=GOOGLE_API_KEY
     )
@@ -22,7 +20,6 @@ class SceneCrew:
         role='Scene Details Inserter',
         goal='Add details to the scene',
         backstory='Experienced in adding details to a sentence, portraying the scene in a vivid manner.',
-        # verbose=True,
         allow_delegation=False,
         llm=llm,
     )
@@ -31,7 +28,6 @@ class SceneCrew:
         role='Prompt Writer',
         goal='Convert the scene into a text to image model prompt',
         backstory='A seasoned expert in converting sentences into prompts for text to image models.',
-        # verbose=True,
         allow_delegation=True,
         llm=llm
     )
@@ -40,7 +36,6 @@ class SceneCrew:
         role='Content Specialist',
         goal='Critique and refine prompt content',
         backstory='A professional prompt writer with experience in refining content for text to image models.',
-        # verbose=True,
         allow_delegation=True,
         llm=llm
     )
@@ -49,7 +44,6 @@ class SceneCrew:
         role="Flow manager",
         goal="Convert the scene into a text to image model prompt, creating 3 different versions, selecting the best one and returning it.",
         backstory="A seasoned expert in converting sentences into prompts for text to image models.",
-        # verbose=True,
         allow_delegation=True,
         llm=llm,
     )
